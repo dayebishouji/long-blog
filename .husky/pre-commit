@@ -1,2 +1,0 @@
-node scripts/time.js
-pnpm exec lint-staged
