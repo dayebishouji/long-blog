@@ -1,8 +1,9 @@
 <template>
   <div class="home flex h-screen w-screen items-center justify-center">
-    <EmojiBackground />
+    <ClientOnly>
+      <EmojiBackground />
+    </ClientOnly>
     <div class="-mt-10 flex w-screen animate-scale-in-center flex-col px-4 sm:-mt-40 sm:w-[626px]">
-      <Vue3Lottie :animationData="lottieData" class="w-full sm:w-[626px]" />
       <div
         class="relative mt-6 flex w-full flex-col items-center rounded-lg bg-white/85 py-6 text-zinc-800 shadow shadow-black/40 backdrop-blur-sm"
       >
@@ -25,39 +26,20 @@
       </div>
     </div>
   </div>
-  <Footer />
+  <ClientOnly>
+    <Footer />
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount, defineAsyncComponent } from 'vue';
+import { ref } from 'vue';
+import { defineAsyncComponent } from 'vue';
 
 const EmojiBackground = defineAsyncComponent(
   () => import('../../components/EmojiBackground/index.vue')
 );
 
-const Vue3Lottie = defineAsyncComponent(() =>
-  import('vue3-lottie').then((m) => m.Vue3Lottie)
-);
-
-const lottieData = ref(null);
-if (typeof window !== 'undefined') {
-  import('../../assets/dora.json').then((m) => {
-    lottieData.value = m.default;
-  });
-}
-
 const Footer = defineAsyncComponent(() => import('../../components/Footer.vue'));
-
-const returnToTopRef = ref<HTMLElement | null>(null);
-
-onMounted(() => {
-  returnToTopRef.value = document.querySelector('.VPLocalNav.empty.fixed');
-  if (returnToTopRef.value) returnToTopRef.value.style.zIndex = '-1000';
-});
-
-onBeforeUnmount(() => {
-  if (returnToTopRef.value) returnToTopRef.value.style.zIndex = '1000';
-});
 </script>
 
 <style scoped>

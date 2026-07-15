@@ -1,9 +1,9 @@
 ---
-title: Long's Blog
+layout: false
 ---
 
-# Welcome to Long's Blog
+<script setup>
+import Home from '../../docs/.vitepress/views/Home/index.vue'
+</script>
 
-Hello World!
-
-[Go to Notes](/Notes/)
+<Home />
