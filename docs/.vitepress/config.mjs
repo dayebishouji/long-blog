@@ -4,6 +4,7 @@ import { getSidebar } from './utils/getSidebar';
 export default defineConfig({
   title: "Long's Blog",
   titleTemplate: 'Long',
+  base: '/long-blog/',
   // md 文件根目录
   srcDir: './src',
   lastUpdated: true,
