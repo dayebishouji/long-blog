@@ -13,21 +13,14 @@
           >.
         </div>
         <p class="mt-2 text-base sm:text-lg">Backend Developer</p>
-        <p class="mt-1 text-black/50">“Welcome to my blog”</p>
+        <p class="mt-1 text-black/50">"Welcome to my blog"</p>
         <div class="mt-4 flex gap-4">
-          <div
-            @click="router.go('/Notes/')"
-            class="button relative w-fit cursor-pointer rounded-full bg-white active:scale-95"
+          <a
+            href="/Notes/"
+            class="button relative w-fit inline-block cursor-pointer rounded-full bg-white active:scale-95"
           >
             🎉 Welcome
-          </div>
-          <!-- <div
-            @click="gotoGithub"
-            class="button button-github relative inline-flex cursor-pointer rounded-full bg-white active:scale-95"
-          >
-            <RiGithubLine class="w-5" />
-            Github
-          </div> -->
+          </a>
         </div>
       </div>
     </div>
@@ -36,21 +29,26 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount } from 'vue';
-import EmojiBackground from '../../components/EmojiBackground/index.vue';
-import { RiGithubLine } from '@remixicon/vue';
-import { useRouter } from 'vitepress';
-import { Vue3Lottie } from 'vue3-lottie';
-import Footer from '../../components/Footer.vue'; // 添加这行导入
+import { onMounted, ref, onBeforeUnmount, defineAsyncComponent } from 'vue';
 
-import lottieData from '../../assets/dora.json';
+const EmojiBackground = defineAsyncComponent(
+  () => import('../../components/EmojiBackground/index.vue')
+);
+
+const Vue3Lottie = defineAsyncComponent(() =>
+  import('vue3-lottie').then((m) => m.Vue3Lottie)
+);
+
+const lottieData = ref(null);
+if (typeof window !== 'undefined') {
+  import('../../assets/dora.json').then((m) => {
+    lottieData.value = m.default;
+  });
+}
+
+const Footer = defineAsyncComponent(() => import('../../components/Footer.vue'));
 
 const returnToTopRef = ref<HTMLElement | null>(null);
-
-const router = useRouter();
-const gotoGithub = () => {
-  window.open('https://github.com/dayebishouji');
-};
 
 onMounted(() => {
   returnToTopRef.value = document.querySelector('.VPLocalNav.empty.fixed');
@@ -65,11 +63,6 @@ onBeforeUnmount(() => {
 <style scoped>
 .home {
   --primary-color: #609aff;
-}
-
-.button-github {
-  /* @apply bg-sky-400 */
-  --primary-color: #38bdf8;
 }
 
 .button {
@@ -135,7 +128,6 @@ onBeforeUnmount(() => {
       55% 90%,
       70% 90%;
   }
-
   50% {
     background-position:
       0% 80%,
@@ -148,7 +140,6 @@ onBeforeUnmount(() => {
       65% 20%,
       90% 30%;
   }
-
   100% {
     background-position:
       0% 70%,
@@ -203,7 +194,6 @@ onBeforeUnmount(() => {
       70% -10%,
       70% 0%;
   }
-
   50% {
     background-position:
       0% 80%,
@@ -214,7 +204,6 @@ onBeforeUnmount(() => {
       95% 60%,
       105% 0%;
   }
-
   100% {
     background-position:
       0% 90%,
@@ -238,20 +227,10 @@ onBeforeUnmount(() => {
   animation: shake 4s ease-in-out both infinite;
 }
 @keyframes shake {
-  60% {
-    transform: rotate(0deg);
-  }
-  70% {
-    transform: rotate(-10deg);
-  }
-  80% {
-    transform: rotate(0deg);
-  }
-  90% {
-    transform: rotate(10deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
+  60% { transform: rotate(0deg); }
+  70% { transform: rotate(-10deg); }
+  80% { transform: rotate(0deg); }
+  90% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
 }
 </style>
